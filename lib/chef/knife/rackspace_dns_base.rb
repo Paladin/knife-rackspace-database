@@ -5,17 +5,17 @@ class Chef
     module RackspaceDnsBase
 
       def dns_service
-          @dns_service ||= Fog::DNS::Rackspace.new(connection_params.except(:provider))
+          @dns_service ||= Fog::DNS::Rackspace.new(connection_params.reject {|key, val| key == :provider})
       end
 
       def zone_for(fqdn)
         parts = fqdn.split('.')
         if parts.count < fqdn_min_size
           ui.error("'#{fqdn}' is not a valid fqdn (e.g. test.example.com)")
-          exit 1 
+          exit 1
         end
-        
-        zone_name = parts.count > fqdn_min_size ? three_parts_zone_name(parts) : two_parts_zone_name(parts) 
+
+        zone_name = parts.count > fqdn_min_size ? three_parts_zone_name(parts) : two_parts_zone_name(parts)
         load_zone zone_name
       end
 
@@ -33,7 +33,7 @@ class Chef
       end
 
       def load_zone(zone_name)
-        dns_service.zones.find {|z| z.domain == zone_name }  
+        dns_service.zones.find {|z| z.domain == zone_name }
       end
 
 

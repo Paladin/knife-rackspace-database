@@ -5,7 +5,7 @@ class Chef
     module RackspaceCloudfilesBase
 
       def cloud_files_service
-        @connection ||= Fog::Storage::Rackspace.new(connection_params.except(:provider).merge({:rackspace_cdn_ssl => true}))        
+        @connection ||= Fog::Storage::Rackspace.new(connection_params.reject {|key, val| key == :provider}.merge({:rackspace_cdn_ssl => true}))
       end
 
     end
