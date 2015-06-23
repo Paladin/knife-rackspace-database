@@ -1,3 +1,14 @@
+Being but the tiniest modification from the original author's work:
+
+==Build And Install Gem From Source
+To build the gem:
+  gem build knife-rackspace-database.gemspec
+
+Install it in ChefDK:
+  chef gem install path/to/gem/knife-rackspace-database-0.7.1.gem
+
+(or whatever the version currently is.)
+
 ==Setup
 Add region to your knife configuration:
   #knife.rb
@@ -5,22 +16,22 @@ Add region to your knife configuration:
 
 ==Commands
 Instance List:
-  bundle exec knife rackspace database list
+  knife rackspace database list
 
 Show:
-  bundle exec knife rackspace database show <database_id>
+  knife rackspace database show <database_id>
 
 Create:
-  bundle exec knife rackspace database create ????
+  knife rackspace database create ????
 
 Delete:
-  bundle exec knife rackspace database delete <database_id>
+  knife rackspace database delete <database_id>
 
 
 = LICENSE:
 
 Author:: Tom Alexandrowicz (<talexand@thoughtworks.com>)
-Copyright:: Copyright (c) 2013 
+Copyright:: Copyright (c) 2013
 License:: Apache License, Version 2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
