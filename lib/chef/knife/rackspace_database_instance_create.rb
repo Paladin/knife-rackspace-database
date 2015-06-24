@@ -33,21 +33,21 @@ module KnifePlugins
             :long => "-add-fqdn FQDN",
             :short => "-D FQDN",
             :description => "Creates an 'CNAME' record in Cloud DNS",
-            :default => ""
+            :default => nil
 
     option :ttl,
            :short => "-l",
            :long => "--ttl SECONDS",
            :description => "DNS TTL in seconds (default 300)",
            :default => "300"
-           
+
     def run
       $stdout.sync = true
 
       if @name_args.first.nil?
         show_usage
         ui.error("INSTANCE_NAME is required")
-        exit 1 
+        exit 1
       end
 
       instance_name = @name_args.first
@@ -64,24 +64,24 @@ module KnifePlugins
 
       instance.wait_for(Integer(config[:instance_create_timeout])) { print "."; ready? }
       puts
-      
+
       msg_pair("Hostname", instance.hostname)
 
-      if (config[:fqdn])
+      if config[:fqdn]
         fqdn = config[:fqdn]
-        
+
         zone = zone_for fqdn
 
         if !zone
           ui.error("Could not find Rackspace DNS zone for '#{zone_name}'")
-          exit 1 
+          exit 1
         end
 
         zone.records.create(:type => 'CNAME', :name => fqdn, :value => instance.hostname, :ttl => config[:ttl])
         msg_pair("DNS", fqdn)
         msg_pair("DNS TTL", config[:ttl])
       end
-      
+
     end
 
   end
