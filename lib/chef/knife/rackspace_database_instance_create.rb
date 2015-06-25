@@ -73,7 +73,7 @@ module KnifePlugins
         zone = zone_for fqdn
 
         if !zone
-          ui.error("Could not find Rackspace DNS zone for '#{zone_name}'")
+          ui.error("Could not find Rackspace DNS zone for '#{fqdn}'")
           exit 1
         end
 
