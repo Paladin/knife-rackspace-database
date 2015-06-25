@@ -63,7 +63,6 @@ module KnifePlugins
       msg_pair("Volume Size", instance.volume_size)
 
       instance.wait_for(Integer(config[:instance_create_timeout])) { print "."; ready? }
-      puts
 
       msg_pair("Hostname", instance.hostname)
 
