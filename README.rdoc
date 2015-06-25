@@ -1,3 +1,5 @@
+=Knife Rackspace Database
+
 Being but the tiniest modification from the original author's work:
 
 ==Build And Install Gem From Source
@@ -15,18 +17,40 @@ Add region to your knife configuration:
   knife[:rackspace_api_region] = "ord"
 
 ==Commands
-Instance List:
-  knife rackspace database list
 
-Show:
-  knife rackspace database show <database_id>
+===Flavors
 
-Create:
-  knife rackspace database create ????
+List
+  knife rackspace database flavor list
 
-Delete:
-  knife rackspace database delete <database_id>
+  Lists the details of the available flavors.
 
+===Instances
+
+====List:
+  knife rackspace database instance list
+
+====Create:
+  knife rackspace database instance create INSTANCE_NAME
+
+  [-D | --add-fqdn FQDN]
+
+Adding the command switch will add a CNAME entry in the CloudDNS pointing FQDN at the created database instance. If there is a CNAME record already for that FQDN, it is updated to point to the newly created instance.
+
+  [ -l | --ttl SECONDS ]
+
+Sets the Time To Live of the CNAME record
+
+  [ -f | --flavor FLAVOR ]
+
+Number of the flavor to build. Default is 1.
+
+More options are available, but these are the most useful. Use -h or --help to see them.
+
+====Delete:
+  knife rackspace database instance delete INSTANCE_NAME
+
+  If there are multiple copies with the same instance name, they will all be deleted.
 
 = LICENSE:
 
