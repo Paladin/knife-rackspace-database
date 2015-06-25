@@ -75,8 +75,15 @@ module KnifePlugins
           ui.error("Could not find Rackspace DNS zone for '#{fqdn}'")
           exit 1
         end
-
-        zone.records.create(:type => 'CNAME', :name => fqdn, :value => instance.hostname, :ttl => config[:ttl])
+        cname_record = zone.records.find{|r| r.name == fqdn }
+        cname_record = zone.records.new(
+                                        :type => 'CNAME',
+                                        :name => fqdn,
+                                        :value => instance.hostname,
+                                        :ttl => config[:ttl]
+        ) unless cname_record
+        cname_record.value = instance.hostname
+        cname_record.save
         msg_pair("DNS", fqdn)
         msg_pair("DNS TTL", config[:ttl])
       end
