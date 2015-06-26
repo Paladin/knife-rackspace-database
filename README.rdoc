@@ -1,6 +1,8 @@
 =Knife Rackspace Database
 
-Being but the tiniest modification from the original author's work:
+Being but the tiniest modification from the original author's work.
+
+CAVEAT: Being somewhat new to chef commands, I'm not comfortable that the originally intended behavior is actually proper behavior. The instance create command, for example, is not idempotent. Weigh in with an issue if you think something's misbehaving.
 
 ==Build And Install Gem From Source
 To build the gem:
@@ -16,7 +18,7 @@ Add region to your knife configuration:
   #knife.rb
   knife[:rackspace_api_region] = "ord"
 
-==Commands
+==(Sub)Commands
 
 ===Flavors
 
@@ -36,7 +38,7 @@ Lists the details of the available flavors.
 Some of the options for this command:
   [-D | --add-fqdn FQDN]
 
-Adding the command switch will add a CNAME entry in the CloudDNS pointing FQDN at the created database instance. If there is a CNAME record already for that FQDN, it is updated to point to the newly created instance.
+Adding the command switch will add a CNAME entry in the CloudDNS pointing FQDN at the created database instance. If there is a CNAME record already for that FQDN, it is updated to point to the newly created instance. There can be only one CNAME, so last create wins.
 
   [ -l | --ttl SECONDS ]
 
@@ -52,6 +54,40 @@ More options are available, but these are the most useful. Use -h or --help to s
   knife rackspace database instance delete INSTANCE_NAME
 
 If there are multiple copies with the same instance name, they will all be deleted.
+
+===Databases
+
+====List
+  knife rackspace database db list INSTANCE_NAME
+
+Lists databases on a given instance
+
+====Create
+  knife rackspace database db create INSTANCE_NAME DB_NAME
+
+Creates database DB_NAME on instance INSTANCE_NAME
+
+====Delete
+  knife rackspace database db delete INSTANCE_NAME DB_NAME
+
+Deletes the database DB_NAME from instance INSTANCE_NAME. Can delete multiple databases if multiple names, separated by spaces, are supplied
+
+===Database Users
+
+====List
+  knife rackspace database user list INSTANCE_NAME
+
+Lists the all the users on a given instance.
+
+====Create
+  knife rackspace database user create INSTANCE_NAME USER_NAME PASSWORD [DB_NAME ...]
+
+Creates a user USER_NAME with password PASSWORD on instance INSTANCE_NAME. Optionally, the user can be limited to a space-separated list of one or more databases on that instance.
+
+====Delete
+  knife rackspace database user delete INSTANCE_NAME USER_NAME
+
+Deletes a user from an instance. Optionally, multiple user names may be supplied, separated by spaces, for multiple deletions.
 
 = LICENSE:
 
